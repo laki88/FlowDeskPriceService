@@ -51,8 +51,8 @@ describe('GET /global-price-index', () => {
     mockExchangePrices['exchange2'] = null;
 
     const response = await request(app).get('/');
-    expect(response.status).toBe(200);
+    expect(response.status).toBe(500);
     // NaN is converted to null in JSON
-    expect(response.body).toEqual({ globalPriceIndex: null });
+    expect(response.body).toEqual({ error: 'No valid price data available' });
   });
 });
