@@ -3,26 +3,32 @@ import { exchanges, fetchInterval, Exchange, Orderbook } from '../config/exchang
 
 describe('Exchange Configuration', () => {
   describe('Binance', () => {
-    const binance = exchanges.find(e => e.name === 'Binance')!;
+    const binance = exchanges.find((e) => e.name === 'Binance')!;
 
     test('has correct configuration', () => {
       expect(binance).toEqual({
         name: 'Binance',
         type: 'websocket',
         url: 'wss://stream.binance.com:9443/ws/btcusdt@depth',
-        extractOrderbook: expect.any(Function)
+        extractOrderbook: expect.any(Function),
       });
     });
 
     describe('extractOrderbook', () => {
       it('correctly extracts bids and asks', () => {
         const testData = {
-          b: [['100', '1'], ['99', '2']],
-          a: [['101', '1'], ['102', '3']]
+          b: [
+            ['100', '1'],
+            ['99', '2'],
+          ],
+          a: [
+            ['101', '1'],
+            ['102', '3'],
+          ],
         };
         const expected: Orderbook = {
           bids: testData.b,
-          asks: testData.a
+          asks: testData.a,
         };
         expect(binance.extractOrderbook(testData)).toEqual(expected);
       });
@@ -30,14 +36,14 @@ describe('Exchange Configuration', () => {
   });
 
   describe('Kraken', () => {
-    const kraken = exchanges.find(e => e.name === 'Kraken')!;
+    const kraken = exchanges.find((e) => e.name === 'Kraken')!;
 
     test('has correct configuration', () => {
       expect(kraken).toEqual({
         name: 'Kraken',
         type: 'rest',
         url: 'https://api.kraken.com/0/public/Depth?pair=XBTUSDT',
-        extractOrderbook: expect.any(Function)
+        extractOrderbook: expect.any(Function),
       });
     });
 
@@ -47,13 +53,13 @@ describe('Exchange Configuration', () => {
           result: {
             XBTUSDT: {
               bids: [['300', '1', 123]],
-              asks: [['301', '2', 456]]
-            }
-          }
+              asks: [['301', '2', 456]],
+            },
+          },
         };
         const expected: Orderbook = {
           bids: testData.result.XBTUSDT.bids,
-          asks: testData.result.XBTUSDT.asks
+          asks: testData.result.XBTUSDT.asks,
         };
         expect(kraken.extractOrderbook(testData)).toEqual(expected);
       });
@@ -72,14 +78,14 @@ describe('Exchange Configuration', () => {
   });
 
   describe('Huobi', () => {
-    const huobi = exchanges.find(e => e.name === 'Huobi')!;
+    const huobi = exchanges.find((e) => e.name === 'Huobi')!;
 
     test('has correct configuration', () => {
       expect(huobi).toEqual({
         name: 'Huobi',
         type: 'rest',
         url: 'https://api.huobi.pro/market/depth?symbol=btcusdt&type=step0',
-        extractOrderbook: expect.any(Function)
+        extractOrderbook: expect.any(Function),
       });
     });
 
@@ -88,12 +94,12 @@ describe('Exchange Configuration', () => {
         const testData = {
           tick: {
             bids: [['400', '1']],
-            asks: [['401', '2']]
-          }
+            asks: [['401', '2']],
+          },
         };
         const expected: Orderbook = {
           bids: testData.tick.bids,
-          asks: testData.tick.asks
+          asks: testData.tick.asks,
         };
         expect(huobi.extractOrderbook(testData)).toEqual(expected);
       });

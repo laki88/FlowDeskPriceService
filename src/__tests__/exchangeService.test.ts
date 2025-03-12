@@ -51,10 +51,16 @@ test('establishes WebSocket connection for WebSocket exchanges', () => {
 
 test('processes WebSocket message and updates exchangePrices', () => {
   const mockExtractOrderbook = jest.fn().mockReturnValue({
-    bids: [[100, 1]], asks: [[101, 1]],
+    bids: [[100, 1]],
+    asks: [[101, 1]],
   });
   const mockExchanges = [
-    { name: 'WSExchange', type: 'websocket', url: 'ws://test.com', extractOrderbook: mockExtractOrderbook },
+    {
+      name: 'WSExchange',
+      type: 'websocket',
+      url: 'ws://test.com',
+      extractOrderbook: mockExtractOrderbook,
+    },
   ];
   jest.mock('../config/exchanges', () => ({
     exchanges: mockExchanges,
@@ -141,10 +147,16 @@ test('handles WebSocket error', () => {
 
 test('fetches and processes REST API orderbooks periodically', async () => {
   const mockExtractOrderbook = jest.fn().mockReturnValue({
-    bids: [[200, 1]], asks: [[201, 1]],
+    bids: [[200, 1]],
+    asks: [[201, 1]],
   });
   const mockExchanges = [
-    { name: 'RestExchange', type: 'rest', url: 'http://test.com', extractOrderbook: mockExtractOrderbook },
+    {
+      name: 'RestExchange',
+      type: 'rest',
+      url: 'http://test.com',
+      extractOrderbook: mockExtractOrderbook,
+    },
   ];
   jest.doMock('../config/exchanges', () => ({
     exchanges: mockExchanges,
@@ -156,10 +168,9 @@ test('fetches and processes REST API orderbooks periodically', async () => {
 
   const axiosMock = require('axios');
   axiosMock.get.mockResolvedValue({ data: { some: 'data' } });
-  
 
   const exchangeService = require('../services/exchangeService');
-  jest.advanceTimersByTime(10000); 
+  jest.advanceTimersByTime(10000);
   await Promise.resolve();
 
   expect(axiosMock.get).toHaveBeenCalledWith('http://test.com');
@@ -186,14 +197,19 @@ test('handles error when fetching REST API orderbooks', async () => {
 
   expect(console.error).toHaveBeenCalledWith(
     'Error fetching RestExchange orderbook:',
-    expect.any(Error)
+    expect.any(Error),
   );
 });
 
 test('handles invalid order book data from WebSocket', () => {
   const mockExtractOrderbook = jest.fn().mockReturnValue(null);
   const mockExchanges = [
-    { name: 'WSExchange', type: 'websocket', url: 'ws://test.com', extractOrderbook: mockExtractOrderbook },
+    {
+      name: 'WSExchange',
+      type: 'websocket',
+      url: 'ws://test.com',
+      extractOrderbook: mockExtractOrderbook,
+    },
   ];
   jest.mock('../config/exchanges', () => ({
     exchanges: mockExchanges,
@@ -214,10 +230,7 @@ test('handles invalid order book data from WebSocket', () => {
   expect(onMessageCallback).toBeDefined();
   onMessageCallback!(JSON.stringify(sampleData));
 
-  expect(console.error).toHaveBeenCalledWith(
-    'Invalid order book data for WSExchange:',
-    sampleData
-  );
+  expect(console.error).toHaveBeenCalledWith('Invalid order book data for WSExchange:', sampleData);
   expect(exchangePrices['WSExchange']).toBeUndefined();
 });
 
@@ -245,6 +258,6 @@ test('handles WebSocket message parsing error', () => {
 
   expect(console.error).toHaveBeenCalledWith(
     'Error processing WebSocket data from WSExchange:',
-    expect.any(Error)
+    expect.any(Error),
   );
 });

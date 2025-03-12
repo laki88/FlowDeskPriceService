@@ -36,10 +36,10 @@ describe('calculateMidPrice', () => {
       const asks = [['100']];
       const result = calculateMidPrice(bids, asks);
       expect(result).toBeNull();
-      expect(consoleSpy).toHaveBeenCalledWith(
-        'Invalid bid or ask price:',
-        { bestBid: NaN, bestAsk: 100 }
-      );
+      expect(consoleSpy).toHaveBeenCalledWith('Invalid bid or ask price:', {
+        bestBid: NaN,
+        bestAsk: 100,
+      });
     });
 
     it('returns null and logs error if bestAsk is NaN', () => {
@@ -47,10 +47,10 @@ describe('calculateMidPrice', () => {
       const asks = [['invalid']];
       const result = calculateMidPrice(bids, asks);
       expect(result).toBeNull();
-      expect(consoleSpy).toHaveBeenCalledWith(
-        'Invalid bid or ask price:',
-        { bestBid: 200, bestAsk: NaN }
-      );
+      expect(consoleSpy).toHaveBeenCalledWith('Invalid bid or ask price:', {
+        bestBid: 200,
+        bestAsk: NaN,
+      });
     });
   });
 
@@ -68,8 +68,14 @@ describe('calculateMidPrice', () => {
     });
 
     it('uses the first elements of bids and asks', () => {
-      const bids = [['100', '1'], ['200', '2']];
-      const asks = [['300', '1'], ['400', '2']];
+      const bids = [
+        ['100', '1'],
+        ['200', '2'],
+      ];
+      const asks = [
+        ['300', '1'],
+        ['400', '2'],
+      ];
       expect(calculateMidPrice(bids, asks)).toBe(200); // (100 + 300) / 2
     });
 
