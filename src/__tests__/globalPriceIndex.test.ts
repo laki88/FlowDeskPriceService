@@ -2,7 +2,7 @@
 import request from 'supertest';
 import express from 'express';
 import { exchangePrices } from '../services/exchangeService';
-const globalPriceIndexRouter = require("../routes/globalPriceIndex");
+const globalPriceIndexRouter = require('../routes/globalPriceIndex');
 
 // Mock the exchangeService module
 jest.mock('../services/exchangeService', () => ({

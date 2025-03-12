@@ -1,7 +1,7 @@
-const axios = require("axios");
-const WebSocket = require("ws");
-const { calculateMidPrice } = require("../utils/priceUtils");
-const { exchanges, fetchInterval } = require("../config/exchanges");
+const axios = require('axios');
+const WebSocket = require('ws');
+const { calculateMidPrice } = require('../utils/priceUtils');
+const { exchanges, fetchInterval } = require('../config/exchanges');
 
 interface ExchangePriceMap {
   [exchangeName: string]: number;
@@ -46,11 +46,15 @@ const connectWebSocket = (exchange: any): void => {
 };
 
 // Establish WebSocket connections
-exchanges.filter((exchange : import("../config/exchanges").Exchange) => exchange.type === 'websocket').forEach(connectWebSocket);
+exchanges
+  .filter((exchange: import('../config/exchanges').Exchange) => exchange.type === 'websocket')
+  .forEach(connectWebSocket);
 
 // Fetch order books from REST API exchanges
 const fetchOrderbooks = async (): Promise<void> => {
-  const restExchanges = exchanges.filter((exchange : import("../config/exchanges").Exchange) => exchange.type === 'rest');
+  const restExchanges = exchanges.filter(
+    (exchange: import('../config/exchanges').Exchange) => exchange.type === 'rest',
+  );
 
   for (const exchange of restExchanges) {
     try {

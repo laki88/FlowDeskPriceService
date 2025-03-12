@@ -1,10 +1,10 @@
-const express = require("express");
-const { exchangePrices } = require("../services/exchangeService");
+const express = require('express');
+const { exchangePrices } = require('../services/exchangeService');
 
 const router = express.Router();
 
 // Placeholder function for price index calculation
-router.get('/', (req: import("express").Request, res: import("express").Response) => {
+router.get('/', (req: import('express').Request, res: import('express').Response) => {
   const prices = Object.values(exchangePrices).filter((price): price is number => price !== null);
 
   if (prices.length === 0) {

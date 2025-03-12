@@ -1,6 +1,6 @@
-const express = require("express");
-const dotenv = require("dotenv");
-const globalPriceIndexRoute = require("./routes/globalPriceIndex");
+const express = require('express');
+const dotenv = require('dotenv');
+const globalPriceIndexRoute = require('./routes/globalPriceIndex');
 
 dotenv.config();
 
@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
 
-app.get('/', (req: import("express").Request, res: import("express").Response) => {
+app.get('/', (req: import('express').Request, res: import('express').Response) => {
   res.send('Hello, TypeScript with Express!');
 });
 
